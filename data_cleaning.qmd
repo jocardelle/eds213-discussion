@@ -1,0 +1,58 @@
+---
+title: "Discussion Week 2 - Data Cleaning"
+author: "Josephine Cardelle"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load libraries
+```{r}
+library(tidyverse)
+library(here)
+library(dplyr)
+library(janitor)
+```
+
+
+# Read in data
+```{r}
+aq <- read_csv(here("data/air-quality/data_161215.csv"))
+
+asthma <- read_csv(here("data/asthma/data_161244.csv"))
+```
+
+
+# Data cleaning
+```{r}
+# Rename value to pm_value
+aq <- aq %>% 
+  rename(Pm_Value = Value) %>% 
+  clean_names()
+
+# Rename value to rate
+asthma <- asthma %>% 
+  rename(Rate = Value) %>% 
+  clean_names()
+
+# Change rate column to float value
+asthma$rate <- as.numeric(gsub("%", "", asthma$rate)) / 100
+
+# Create new df with columns of interest
+asthma_rates <- asthma %>% 
+  select(county_fips, year, rate, data_comment)
+
+air_quality <- aq %>% 
+  select(county_fips, year, pm_value, data_comment)
+
+county_aq <- aq %>% 
+  select(county_fips, county, state_fips, state)
+
+county_asthma <- asthma %>% 
+  select(county_fips, county, state_fips, state) 
+
+county <- full_join(county_aq, county_asthma)
+
+county <- distinct(county)
+```
+
