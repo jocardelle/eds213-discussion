@@ -1,0 +1,52 @@
+---
+title: "Making a viz"
+author: "Josephine Cardelle"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+# How does PM2.5 value affect asthma rates?
+
+### Load libraries
+```{r}
+library(tidyverse)
+library(DBI)
+library(duckdb)
+```
+
+
+```{r}
+conn <- DBI::dbConnect(duckdb::duckdb(), dbdir="aq_asthma.db")
+
+DBI::dbListTables(conn)
+```
+
+
+## Query
+```{r}
+avg_asthma <- dbGetQuery(conn, "SELECT county_fips, AVG(rate) AS avg_rate FROM asthma
+    GROUP BY county_fips")
+
+avg_aq <- dbGetQuery(conn, "SELECT county_fips, AVG(pm_value) AS avg_pm FROM air_quality
+    GROUP BY county_fips")
+```
+
+
+```{r}
+avg_asthma_aq <- full_join(avg_asthma, avg_aq, by = "county_fips") %>% 
+  arrange(avg_rate)
+```
+
+
+## Visualization
+```{r}
+ggplot(avg_asthma_aq, aes(x = avg_pm, y = avg_rate)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Asthma vs. PM2.5 at the County Level (2018 - 2020)",
+    x = "PM2.5 Levels",
+       y = "Asthma Rates") +
+  theme_minimal()
+
+```
+

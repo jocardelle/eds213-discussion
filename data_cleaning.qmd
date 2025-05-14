@@ -56,3 +56,10 @@ county <- full_join(county_aq, county_asthma)
 county <- distinct(county)
 ```
 
+```{r}
+# Export tables to csv
+write_csv(county, here("data/county.csv"))
+write_csv(asthma_rates, here("data/asthma.csv"))
+write_csv(air_quality, here("data/air_quality.csv"))
+```
+
