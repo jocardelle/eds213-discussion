@@ -31,4 +31,5 @@ The data was accessed through the [CDC National Environmental Public Health Trac
 [Josephine Cardelle](https://github.com/jocardelle)
 
 ## Acknowledgments
-This repository was created for the course [EDS 213: Databases and Data Management](https://ucsb-library-research-data-services.github.io/bren-eds213/) at the [Bren School of Environmental Science & Management](https://bren.ucsb.edu/). Special thanks to the course instructors and TAs that provided guidance for this project: Julian Brun, Greg Janee, and Annie Adams.
+This repository was created for the course [EDS 213: Databases and Data Management](https://ucsb-library-research-data-services.github.io/bren-eds213/) at the [Bren School of Environmental Science & Management](https://bren.ucsb.edu/). Special thanks to the course instructors and TAs that provided guidance for this project: [Julian Brun](https://github.com/brunj7), [Greg Janee](https://github.com/gjanee), and [Annie Adams](https://github.com/annieradams).
+Data was made available via the [CDC National Environmental Public Health Tracking Network](https://ephtracking.cdc.gov/DataExplorer/).
