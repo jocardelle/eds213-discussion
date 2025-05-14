@@ -3,6 +3,8 @@
 This repository contains a database and visualization exploring the relationship between PM2.5 levels and asthma rates. It examines data at the county level from the years 2018-2020
 
 ## About
+The dependencies for this project can be found in the `dependencies.txt` file.
+
 The datasets were first cleaned in the `data_cleaning.qmd` file. The cleaned datasets were stored as .csv files in the `data` folder. After the data was cleaned, it was ingested into a database, `aq_asthma.db`. An analytical question and corresponding sql query to answer the question were then formed in the `question.sql` file. The question explored was "How does PM2.5 value affect asthma rates at the county level in the US?" Once the question and query were formed, a data visualization was created in R in the `data_viz.qmd` file to explore the answer to the question.
 
 ## Data
