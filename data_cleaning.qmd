@@ -15,7 +15,7 @@ library(janitor)
 ```
 
 
-# Read in data
+## Read in data
 ```{r}
 aq <- read_csv(here("data/air-quality/data_161215.csv"))
 
@@ -23,7 +23,7 @@ asthma <- read_csv(here("data/asthma/data_161244.csv"))
 ```
 
 
-# Data cleaning
+## Data cleaning
 ```{r}
 # Rename value to pm_value
 aq <- aq %>% 
@@ -51,11 +51,13 @@ county_aq <- aq %>%
 county_asthma <- asthma %>% 
   select(county_fips, county, state_fips, state) 
 
+# Join tables and get distinct counties
 county <- full_join(county_aq, county_asthma)
 
 county <- distinct(county)
 ```
 
+## Create csv files with cleaned data
 ```{r}
 # Export tables to csv
 write_csv(county, here("data/county.csv"))

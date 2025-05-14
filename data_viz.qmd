@@ -14,16 +14,18 @@ library(DBI)
 library(duckdb)
 ```
 
-
+### Database Connection
 ```{r}
+# use duckdb to connect to database
 conn <- DBI::dbConnect(duckdb::duckdb(), dbdir="aq_asthma.db")
 
 DBI::dbListTables(conn)
 ```
 
 
-## Query
+### Query
 ```{r}
+# Get tables for necessary data from database
 avg_asthma <- dbGetQuery(conn, "SELECT county_fips, AVG(rate) AS avg_rate FROM asthma
     GROUP BY county_fips")
 
@@ -33,14 +35,16 @@ avg_aq <- dbGetQuery(conn, "SELECT county_fips, AVG(pm_value) AS avg_pm FROM air
 
 
 ```{r}
+# Join tables to visualize relationship
 avg_asthma_aq <- full_join(avg_asthma, avg_aq, by = "county_fips") %>% 
-  arrange(avg_rate) %>% 
-  mutate(avg_rate = avg_rate * 100)
+  arrange(avg_rate) %>% # Order by asthma rates
+  mutate(avg_rate = avg_rate * 100) # Convert to percent
 ```
 
 
 ## Visualization
 ```{r}
+# Create scatterplot with trend line
 ggplot(avg_asthma_aq, aes(x = avg_pm, y = avg_rate)) +
   geom_point(color = "#226E9C") +
   geom_smooth(method = "lm", color = "#6E005F") +
@@ -50,4 +54,5 @@ ggplot(avg_asthma_aq, aes(x = avg_pm, y = avg_rate)) +
   theme_minimal()
 
 ```
+
 
