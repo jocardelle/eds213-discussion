@@ -34,18 +34,19 @@ avg_aq <- dbGetQuery(conn, "SELECT county_fips, AVG(pm_value) AS avg_pm FROM air
 
 ```{r}
 avg_asthma_aq <- full_join(avg_asthma, avg_aq, by = "county_fips") %>% 
-  arrange(avg_rate)
+  arrange(avg_rate) %>% 
+  mutate(avg_rate = avg_rate * 100)
 ```
 
 
 ## Visualization
 ```{r}
 ggplot(avg_asthma_aq, aes(x = avg_pm, y = avg_rate)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
+  geom_point(color = "#226E9C") +
+  geom_smooth(method = "lm", color = "#6E005F") +
   labs(title = "Asthma vs. PM2.5 at the County Level (2018 - 2020)",
-    x = "PM2.5 Levels",
-       y = "Asthma Rates") +
+    x = "PM2.5 Levels (µg/m³)",
+       y = "Asthma Rates (%)") +
   theme_minimal()
 
 ```
